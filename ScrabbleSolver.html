@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Scrabble Solver</title>
+    <LINK REL=StyleSheet HREF="Style.css" TYPE="text/css" MEDIA=screen>
+</head>
+
+<body>
+    <!--<script type="text/javascript" src="Test.js"></script>-->
+    <script type="text/javascript" src="Words.js" ></script>
+    <script type="text/javascript" src="jquery-1.4.min.js" ></script>
+    <script type="text/javascript" src="Input.js"></script>
+    <script type="text/javascript" src="Game.js"></script>
+    <script type="text/javascript" src="Find.js"></script>
+    <script type="text/javascript" src="Validator.js"></script>
+    <script type="text/javascript" src="Score.js"></script>
+    <script type="text/javascript" src="Configuration.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            Game.Init(Configuration.Standard());
+        });
+    </script>
+    <div id="container">
+        <table class="main">
+            <tr>
+                <!--<td class="setupCol">
+                   <div id="testResults"></div>
+                </td>-->
+                <td class="boardCol">
+                    <div id="gameBoard" class="gameBoard"></div>
+                </td>
+                <td class="rackCol">
+                    <div id="rack" class="rack"></div>
+                    <input type="button" onclick="javascript:Input.Clear();" value="CLEAR ALL" class="tileButton"/>
+                    <input type="button" onclick="javascript:Game.FindWords();" value="FIND WORDS" class="tileButton"/>
+                    <img src="./Images/timer.gif" alt="" style="display:none;" class="workingInd"/>
+                    <br />
+                    <div id="results" ></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

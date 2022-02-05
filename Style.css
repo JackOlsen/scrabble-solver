@@ -1,0 +1,124 @@
+﻿/* colors 
+Space: #FFE0C0
+DoubleLetter: #ADD8E6
+DoubleWord: #FFC0C0
+TripleLetter: #1E90FF
+TripleWord: #FF8080
+Tile: #DEB887
+*/
+
+body
+{
+    background: #D7EDF3 url(./Images/bg.png) repeat-y scroll 50% 0;
+    text-align: center;
+}
+
+#container {
+  width: 800px;
+  margin: auto;
+}
+
+.main 
+{
+    width: 100%;
+}
+
+.rackCol
+{
+    padding-top: 20px;
+    vertical-align: top;
+    min-width: 400px;
+}
+
+.rack{
+    margin-bottom: 10px;
+}
+
+.spaceRow
+{
+    white-space: nowrap;
+}
+  
+.space 
+{
+    width: 20px; 
+    height: 20px;
+    margin: 1px;
+    font-size: 12pt;
+    text-transform: uppercase;
+    text-align: center;
+    background-color: #FFE0C0;
+}
+
+.start{
+    background-image: url(./Images/star.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+.l2
+{
+    background-color: #ADD8E6;
+}
+.w2
+{
+    background-color: #FFC0C0;
+}
+.l3
+{
+    background-color: #1E90FF;
+}
+.w3
+{
+    background-color: #FF8080;
+}
+
+.tile
+{
+    background-color: #DEB887;
+    border: 2px outset #DEB887;
+    font-family: Tahoma;
+    width:20px;
+    text-align:center;
+}
+
+.tileButton {
+    background-color: #DEB887;
+    width:70px;
+    height:70px;
+    white-space: normal;
+    font-size: 12pt;
+    border: 3px outset #DEB887;
+    font-family: Tahoma;
+}
+
+.wild{
+    color: #FFE0C0;
+    font-weight: bold;
+}
+
+.highlight{
+    background-color: #F8F8FF;
+    border: 2px outset #000000;
+}
+#results{
+    margin:auto;
+    margin-top: 10px;
+    height:270px;    
+    text-align:left;
+    overflow:auto;
+}
+.score {
+    min-width: 20px;
+    width: auto;
+    background-color: #1E90FF;
+    border-color: #1E90FF;
+    color: #FFE0C0;
+    
+}
+.result:hover{
+    cursor:pointer;
+}
+.score.bingo{
+    background-color: #00C359;
+}
