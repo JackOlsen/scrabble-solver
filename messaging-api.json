@@ -1,0 +1,2688 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Messaging API",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Local"
+    }
+  ],
+  "paths": {
+    "/api/v1/ecaps": {
+      "post": {
+        "tags": [
+          "Ecaps"
+        ],
+        "operationId": "RecordEcap",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordEcapRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordEcapRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordEcapRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/email-contents/{sentFromEnvironmentId}": {
+      "get": {
+        "tags": [
+          "EmailContents"
+        ],
+        "summary": "Get HTML contents of an email, if available.",
+        "operationId": "GetEmailContent",
+        "parameters": [
+          {
+            "name": "sentFromEnvironmentId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/SentFromEnvironmentId"
+            }
+          },
+          {
+            "name": "emailLogId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/useremail/spam-complaints/{emailAddress}": {
+      "delete": {
+        "tags": [
+          "EmailValidation"
+        ],
+        "summary": "Remove the email address from spam-complaint lists, where present.",
+        "operationId": "SentEmailDto_RemoveEmailAddressFromSpamComplaintLists",
+        "parameters": [
+          {
+            "name": "emailAddress",
+            "in": "path",
+            "description": "The email address to remove from spam-complaint lists.",
+            "required": true,
+            "schema": {
+              "pattern": "^.+@.+\\..+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request has been successfully processed."
+          },
+          "400": {
+            "description": "The emailAddress value is not a valid email address.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/useremail/spam-complaints/{accountId}": {
+      "post": {
+        "tags": [
+          "EmailValidation"
+        ],
+        "summary": "Create a local record of a user who is currently on a spam-complaint list.",
+        "operationId": "RecordUserOnSpamComplaintList",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The user's account ID.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Additional details for the spam-complaint record.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordUserOnSpamComplaintListInput"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordUserOnSpamComplaintListInput"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordUserOnSpamComplaintListInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request has been successfully processed."
+          },
+          "400": {
+            "description": "The expiry value is is missing or cannot be parsed as a TimeSpan object.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/useremail/hard-bounces/{emailAddress}": {
+      "delete": {
+        "tags": [
+          "EmailValidation"
+        ],
+        "summary": "Remove the email address from hard-bounce lists, where present.",
+        "operationId": "SentEmailDto_RemoveEmailAddressFromHardBounceLists",
+        "parameters": [
+          {
+            "name": "emailAddress",
+            "in": "path",
+            "description": "The email address to remove from hard-bounce lists.",
+            "required": true,
+            "schema": {
+              "pattern": "^.+@.+\\..+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request has been successfully processed."
+          },
+          "400": {
+            "description": "The emailAddress value is not a valid email address.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/subscriptions": {
+      "get": {
+        "tags": [
+          "FreeEmailSubscriptions"
+        ],
+        "summary": "Returns a listing of current active email subscriptions to which a user can be subscribed.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmailSubscriptionDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmailSubscriptionDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmailSubscriptionDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sent-emails/{accountId}": {
+      "get": {
+        "tags": [
+          "SentEmails"
+        ],
+        "summary": "Retrieve records of emails sent to the provided account.\r\n            \r\nThis function currently pulls from multiple data sources, which makes pagination messy.\r\nSo, pagination is not currently supported. Instead, the most recent 200 results from each\r\ndata source are returned and the result-count value will always match the\r\ncount of results returned, not the number of matching results across all data sources.\r\n            \r\nThe intention is for this function to enventually pull from just one data source and\r\nprovide a standard pagination experience.",
+        "operationId": "SentEmailDto_GetForAccount",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account ID for which to retrieve sent emails.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "description": "(optional date in ISO 8601 format: yyyy-mm-dd) Limit results to emails sent on or after date.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "description": "(optional date in ISO 8601 format: yyyy-mm-dd) Limit results to emails sent on or before date.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "subjectQuery",
+            "in": "query",
+            "description": "(optional) Limit results by email subject line. Use subjectQueryType to adjust search type.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subjectQueryType",
+            "in": "query",
+            "description": "(optional, defaults to \"contains\") Use in tandem with subjectQuery to limit result by email subject line.",
+            "schema": {
+              "$ref": "#/components/schemas/StringQueryType"
+            }
+          },
+          {
+            "name": "sentFromEnvironmentIds",
+            "in": "query",
+            "description": "(optional, defaults to all environments) Limit results by sending environment.\r\nAccepts both string and numeric SentFromEnvironmentId enum values.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SentFromEnvironmentId"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SentEmailDtoPaginatedResults"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SentEmailDtoPaginatedResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SentEmailDtoPaginatedResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{accountId}/status": {
+      "get": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Retrieve info regarding SMS contact and consent for an account.",
+        "operationId": "GetOptInStatus",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account ID for which to retrieve SMS status.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptInStatusDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptInStatusDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptInStatusDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{phoneNumber}/marketingOptIn": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a number into receiving marketing SMS contact",
+        "operationId": "MarketingOptIn - DEPRECATED",
+        "parameters": [
+          {
+            "name": "phoneNumber",
+            "in": "path",
+            "description": "The phone number being opted in.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "optInCode",
+            "in": "query",
+            "description": "Code specifying the marketing stream for which the user signed up.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Optional: User Id (aka UID) for the user, if known.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{phoneNumber}/marketing-opt-in": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a number into receiving marketing SMS contact",
+        "operationId": "MarketingOptIn",
+        "parameters": [
+          {
+            "name": "phoneNumber",
+            "in": "path",
+            "description": "The phone number being opted in.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "optInCode",
+            "in": "query",
+            "description": "Code specifying the marketing stream for which the user signed up.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Optional: User Id (aka UID) for the user, if known.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{accountId}/premiumOptIn": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a user into receiving premium SMS contact at a provided number.",
+        "operationId": "PremiumOptIn - DEPRECATED",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The user's account id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "description": "The phone number provided for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{accountId}/premium-opt-in": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a user into receiving premium SMS contact at a provided number.",
+        "operationId": "PremiumOptIn",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The user's account id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "description": "The phone number provided for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{phoneNumber}/marketingOptOut": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a number out of receiving marketing SMS contact",
+        "operationId": "MarketingOptOut - DEPRECATED",
+        "parameters": [
+          {
+            "name": "phoneNumber",
+            "in": "path",
+            "description": "The phone number provided to opt out.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{phoneNumber}/marketing-opt-out": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a number out of receiving marketing SMS contact",
+        "operationId": "MarketingOptOut",
+        "parameters": [
+          {
+            "name": "phoneNumber",
+            "in": "path",
+            "description": "The phone number provided to opt out.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{accountId}/premiumOptOut": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a user out of receiving premium SMS contact",
+        "operationId": "PremiumOptOut - DEPRECATED",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The user's account id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{accountId}/premium-opt-out": {
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Opt a user out of receiving premium SMS contact",
+        "operationId": "PremiumOptOut",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The user's account id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms/{accountId}/phone-number": {
+      "delete": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Remove a user's phone number from Braze",
+        "operationId": "DeleteUserPhoneNumber",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The user's account id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Sms"
+        ],
+        "summary": "Assign a number to a user without opting them into SMS.\r\nNote that doing so revokes all previous SMS opt-ins, as they are granted\r\nby phone number, not account, for legal purposes.",
+        "operationId": "SetUserPhoneNumber",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The user's account id.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "description": "The phone number provided for the user.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sms-subscription-log/subscription-group-state-change": {
+      "post": {
+        "tags": [
+          "SubscriptionLog"
+        ],
+        "summary": "Log a change in the state of a user's SMS Subscription Groups",
+        "operationId": "LogSmsSubscriptionStateChange",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriptionGroupStateChangeDetails"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriptionGroupStateChangeDetails"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriptionGroupStateChangeDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user-communication-settings/{accountId}": {
+      "get": {
+        "tags": [
+          "UserCommunicationSettings"
+        ],
+        "operationId": "GetUserCommunicationSettings",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserServiceCommunicationSettingsDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserServiceCommunicationSettingsDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserServiceCommunicationSettingsDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "UserCommunicationSettings"
+        ],
+        "operationId": "ActivateUserCommunicationSetting",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateUserCommunicationSettingRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateUserCommunicationSettingRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateUserCommunicationSettingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserCommunicationSettings"
+        ],
+        "operationId": "DeactivateUserCommunicationSetting",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeactivateUserCommunicationSettingRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeactivateUserCommunicationSettingRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeactivateUserCommunicationSettingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user-communication-settings/{accountId}/history": {
+      "get": {
+        "tags": [
+          "UserCommunicationSettings"
+        ],
+        "operationId": "GetUserCommunicationSettingsHistory",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCommunicationSettingDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCommunicationSettingDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCommunicationSettingDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/userrestrictions/{uid}": {
+      "get": {
+        "tags": [
+          "UserContactRestrictions"
+        ],
+        "summary": "Returns a list of contact restrictions for a user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "The uid of the user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserContactRestrictionDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserContactRestrictionDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserContactRestrictionDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "UserContactRestrictions"
+        ],
+        "summary": "Activates a contact restriction for a user.",
+        "description": "If needed, restrictionIds can be retrieved from the Contact Restriction endpoints.<br />\r\nNote: This endpoint returns a success code both if the restriction already existed, or if it had to be created.<br />",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "The uid of the user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "restrictionId",
+            "in": "query",
+            "description": "The Data.Fool.DataModels.ContactRestrictionType to turn on for the user",
+            "schema": {
+              "$ref": "#/components/schemas/ContactRestrictionType"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created status with a UserContactRestrictionDTO payload is returned when a new restriction is added"
+          },
+          "204": {
+            "description": "Returned when the given restrictionId is already active for the user."
+          },
+          "400": {
+            "description": "Returned when required parameters are missing or invalid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returned when no user could be found matching the provided uid\r\nor the provided restrictionId is not valid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserContactRestrictions"
+        ],
+        "summary": "Lifts the restriction matching a particular restrictionId from the given user.",
+        "description": "If needed, restrictionIds can be retrieved from the Contact Restriction endpoints.<br />\r\nNote: Requests to lift restrictions that do not exist, or from users that do not exist, do not raise errors, but merely return 204-No Content.\r\nThe philosophy here is that lack of a restriction is a default state to which a user is returned, and the 2XX response merely indicates that said\r\nrestriction is assured not to apply to said user.",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "The uid of the user",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "restrictionId",
+            "in": "query",
+            "description": "The Data.Fool.DataModels.ContactRestrictionType that should be lifted from the user",
+            "schema": {
+              "$ref": "#/components/schemas/ContactRestrictionType"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created status is returned when an active restriction is lifted"
+          },
+          "204": {
+            "description": "Returned when the given restrictionId is not active for the user."
+          },
+          "400": {
+            "description": "Returned when required parameters are missing or invalid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returned when no user could be found matching the provided uid\r\nor the provided restrictionId is not valid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/userrestrictions/{accountId}/restrictAllMarketing": {
+      "post": {
+        "tags": [
+          "UserContactRestrictions"
+        ],
+        "summary": "Add all contact restrictions and unsubscribe from all free emails.",
+        "description": "This endpoint takes care of three operations:\r\n  1. Add user contact restrictions for email, mail, and phone\r\n  2. Unsubscribe the user from any free and active subscriptions",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The AccountId (Guid) of the subscriber.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Returned when no user could be found matching the provided accountId.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/userrestrictions/{uid}/restrictAllMarketing": {
+      "post": {
+        "tags": [
+          "UserContactRestrictions"
+        ],
+        "summary": "Add all contact restrictions and unsubscribe from all free emails.",
+        "description": "This endpoint takes care of three operations:\r\n  1. Add user contact restrictions for email, mail, and phone\r\n  2. Unsubscribe the user from any free and active subscriptions",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "The user id (int) - aka uid - of the subscriber.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Returned when no user could be found matching the provided uid.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/userrestrictions/{accountId}/optOut": {
+      "post": {
+        "tags": [
+          "UserContactRestrictions"
+        ],
+        "summary": "Allows a user to opt-out of a member marketing campaign.",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "interactionId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sourceCode",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returned when no user could be found matching the provided accountId.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usersubscriptions/{accountId}/subscribed": {
+      "get": {
+        "tags": [
+          "UserFreeEmailSubscriptions"
+        ],
+        "summary": "Returns a list of currently active email subscriptions for a user.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account ID of the user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserActiveSubscriptionDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserActiveSubscriptionDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserActiveSubscriptionDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/usersubscriptions/{accountId}/{subscriptionGroupId}": {
+      "post": {
+        "tags": [
+          "UserFreeEmailSubscriptions"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "subscriptionGroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserFreeEmailSubscriptions"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "subscriptionGroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user-profiles/{accountId}": {
+      "get": {
+        "tags": [
+          "UserMessagingProfiles"
+        ],
+        "summary": "Get a collection of messaging related information for a user.",
+        "operationId": "GetUserMessagingProfile",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returned when account is found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMessagingProfileDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMessagingProfileDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMessagingProfileDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Returned when account is not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActivateUserCommunicationSettingRequest": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "communicationChannelId": {
+            "$ref": "#/components/schemas/CommunicationChannelId"
+          },
+          "communicationCategoryId": {
+            "$ref": "#/components/schemas/CommunicationCategoryId"
+          },
+          "specifier": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommunicationCategoryId": {
+        "enum": [
+          "recommendations",
+          "exclusives",
+          "myPortfoliosRoundup"
+        ],
+        "type": "string"
+      },
+      "CommunicationChannelId": {
+        "enum": [
+          "email",
+          "sms"
+        ],
+        "type": "string"
+      },
+      "CommunicationSettingOptionSpecifierDto": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommunicationSettingWithStatusDto": {
+        "type": "object",
+        "properties": {
+          "communicationChannelId": {
+            "$ref": "#/components/schemas/CommunicationChannelId"
+          },
+          "communicationChannelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "communicationCategoryId": {
+            "$ref": "#/components/schemas/CommunicationCategoryId"
+          },
+          "communicationCategoryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "communicationCategoryDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "specifierOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommunicationSettingOptionSpecifierDto"
+            },
+            "nullable": true
+          },
+          "currentSpecifierValue": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactRestrictionDto": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactRestrictionType": {
+        "enum": [
+          "mail",
+          "email",
+          "phone",
+          "premiuM_MAIL"
+        ],
+        "type": "string"
+      },
+      "DeactivateUserCommunicationSettingRequest": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "communicationChannelId": {
+            "$ref": "#/components/schemas/CommunicationChannelId"
+          },
+          "communicationCategoryId": {
+            "$ref": "#/components/schemas/CommunicationCategoryId"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailSubscriptionDto": {
+        "type": "object",
+        "properties": {
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "nullable": true
+          },
+          "SubscriptionGroupId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResult": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OptInStatusDto": {
+        "type": "object",
+        "properties": {
+          "marketing": {
+            "type": "boolean"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "premium": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecordEcapRequest": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "emailAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "audienceInteractionDetailId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "interactionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "countryOfOrigin": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateAdded": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecordUserOnSpamComplaintListInput": {
+        "required": [
+          "expiry"
+        ],
+        "type": "object",
+        "properties": {
+          "expiry": {
+            "$ref": "#/components/schemas/TimeSpan"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SentEmailDto": {
+        "type": "object",
+        "properties": {
+          "emailLogId": {
+            "type": "string",
+            "description": "Unique email log identifier within the sending environment.",
+            "nullable": true
+          },
+          "sentFromEnvironment": {
+            "$ref": "#/components/schemas/SentFromEnvironment"
+          },
+          "dateSent": {
+            "type": "string",
+            "description": "The log date of the send.",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "mailingName": {
+            "type": "string",
+            "description": "The internal name of the email.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "subjectLine": {
+            "type": "string",
+            "description": "The email's subject line.",
+            "nullable": true,
+            "readOnly": true
+          },
+          "fromName": {
+            "type": "string",
+            "description": "The email's from display name.",
+            "nullable": true
+          },
+          "fromEmailAddress": {
+            "type": "string",
+            "description": "The email's from email address.",
+            "nullable": true
+          },
+          "toEmailAddress": {
+            "type": "string",
+            "description": "The email's to email address.",
+            "nullable": true
+          },
+          "isCurrentEmailAddressOnAccount": {
+            "type": "boolean",
+            "description": "Whether or not the <cref>ToEmailAddress</cref> is the current email address on the account."
+          },
+          "isViewInBrowserAvailable": {
+            "type": "boolean",
+            "description": "Indicates if the rendered contents of the email are available.",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a log record of a single email send."
+      },
+      "SentEmailDtoPaginatedResults": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SentEmailDto"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "resultCount": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SentFromEnvironment": {
+        "type": "object",
+        "properties": {
+          "sentFromEnvironmentId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "sentFromEnvironmentName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SentFromEnvironmentId": {
+        "enum": [
+          "selligentAcquisitions",
+          "selligentRetention",
+          "braze"
+        ],
+        "type": "string"
+      },
+      "StringQueryType": {
+        "enum": [
+          "contains",
+          "startsWith",
+          "endsWith",
+          "equals"
+        ],
+        "type": "string"
+      },
+      "SubscriptionGroupStateChangeDetails": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "pattern": "^\\+\\d{1,15}$",
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string",
+            "nullable": true
+          },
+          "consentLanguage": {
+            "pattern": "^[a-z]{2}(?:-[a-z]{2})?$",
+            "type": "string",
+            "nullable": true
+          },
+          "subscriptionGroupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isSubscribed": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeSpan": {
+        "type": "object",
+        "properties": {
+          "ticks": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "days": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "hours": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "milliseconds": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "microseconds": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "nanoseconds": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "minutes": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "seconds": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "totalDays": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalHours": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalMilliseconds": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalMicroseconds": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalNanoseconds": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalMinutes": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalSeconds": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserActiveSubscriptionDto": {
+        "type": "object",
+        "properties": {
+          "SubscriptionGroupId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserCommunicationSettingDto": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serviceName": {
+            "type": "string",
+            "nullable": true
+          },
+          "communicationChannelId": {
+            "$ref": "#/components/schemas/CommunicationChannelId"
+          },
+          "communicationCategoryId": {
+            "$ref": "#/components/schemas/CommunicationCategoryId"
+          },
+          "specifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endReason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserContactRestrictionDto": {
+        "type": "object",
+        "properties": {
+          "Restriction": {
+            "$ref": "#/components/schemas/ContactRestrictionDto"
+          },
+          "Uid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StartDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserMessagingProfileDto": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "hasMarkedUsAsSpam": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserServiceCommunicationSettingsDto": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "serviceName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "serviceIncludesEmailRecommendations": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "communicationSettingsWithStatus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommunicationSettingWithStatusDto"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
